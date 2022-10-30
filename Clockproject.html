@@ -18,17 +18,16 @@
         }
     </style>
     
-    <script>
-        let a;
-        let date;
-        let time;
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        setInterval(() => {
-            a = new Date();
-            date = a.toLocaleDateString(undefined, options);
-            time = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
-            document.getElementById('time').innerHTML = time + "<br>on " + date;
-        }, 1000);
+    <script>        
+        function giveTime(){
+        const timezone = document.getElementById('inp').value;
+        fetch(`https://worldtimeapi.org/api/timezone/Asia/${timezone}`)
+        .then((data)=>data.json())
+        .then((res)=>{            
+            let hr = res.datetime.slice(11,13)
+            let min = res.datetime.slice(14,16)
+            document.getElementById('time').innerHTML = '<br/>' + hr + ' hours ' + min + ' minutes ';
+        })}
     </script>
 </head>
 
@@ -107,7 +106,8 @@
             <p class="lead">We have got covered about the world time</p>
             <hr class="my-4">
             <p><b> We are here to show the time of different Countries.</b></p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">Browse time</a>
+            <input type="text" id="inp" placeholder="Search any ASIA Timezone">
+            <a class="btn btn-primary btn-lg" onClick="giveTime()" href="#" role="button">Browse time</a>
         </div>
     </div>
 
